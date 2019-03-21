@@ -1,0 +1,4 @@
+<!--pages/circum/circum.wxml-->
+<view class="container">
+    周边页面
+</view>

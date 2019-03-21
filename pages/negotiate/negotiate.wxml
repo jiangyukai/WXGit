@@ -1,0 +1,4 @@
+<!--pages/negotiate/negotiate.wxml-->
+<view class="container">
+    协商交易页面
+</view>

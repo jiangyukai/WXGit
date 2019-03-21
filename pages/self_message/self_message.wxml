@@ -1,0 +1,4 @@
+<!--pages/self_message/self_message.wxml-->
+<view class="container">
+    我的信息页面
+</view>
