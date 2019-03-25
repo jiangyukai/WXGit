@@ -6,7 +6,8 @@
     "pages/profile/profile",
     "pages/circum/circum",
     "pages/self_message/self_message",
-    "pages/negotiate/negotiate"
+    "pages/negotiate/negotiate",
+    "pages/activity_list/play/play"
   ],
   "window": {
     "backgroundTextStyle": "light",
