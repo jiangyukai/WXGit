@@ -10,16 +10,18 @@
     </view>
 <!-- <template is="loadings" data="{{loading,loadtxt}}" /> -->
 
-
+<!--滚动部分-->
 <view class="banner-scroll">
     <swiper indicator-dots="true" autoplay="true">
         <block wx:for="{{background}}" wx:key="*this">
-            <swiper-item>
+            <swiper-item class="swiper{{item}}">
               <view class="swiper-item {{item}}"></view>
             </swiper-item>
         </block>
     </swiper>
 </view>
+
+<!--列表部分-->
 
 
 </view>
