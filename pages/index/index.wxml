@@ -22,6 +22,15 @@
 </view>
 
 <!--列表部分-->
+<block wx:for='{{tradeList}}'>
+   <!-- data-*属性在触发事件时获取  -->
+   <view class='singleTrade' hover-class='item-press' catchtap='showTradeDetail' data-id='{{item.goodsId}}'>
+     <view class='a'>
+       <view class='name'>{{item.name}}</view>
+       <view class='price'>{{item.price}}</view>
+     </view>
+   </view>
+ </block>
 
 
 </view>
