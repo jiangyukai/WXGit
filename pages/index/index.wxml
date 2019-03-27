@@ -21,16 +21,31 @@
     </swiper>
 </view>
 
-<!--列表部分-->
-<block wx:for='{{tradeList}}'>
-   <!-- data-*属性在触发事件时获取  -->
-   <view class='singleTrade' hover-class='item-press' catchtap='showTradeDetail' data-id='{{item.goodsId}}'>
-     <view class='a'>
-       <view class='name'>{{item.name}}</view>
-       <view class='price'>{{item.price}}</view>
-     </view>
-   </view>
- </block>
+<!--列表-->
+  <view class="headLine box box-tb">
+    <view class="headLineWra box box-lr"  wx:for="{{headLineList}}" bindtap="jumpDetails" data-Id="{{item.id}}" >
+      <view class="headLineContent box box-tb box-align-center box-pack-around">
+        <view class="headLineTitle">
+          {{item.title}}
+        </view>
+        <view class="headLineInfor  box box-lr box-pack-between">
+          <view class="headLineSource">
+            日期: {{item.date}}
+          </view>
+          <view class="headLineSource">
+            来源：{{item.source}}
+          </view>
+        </view>
+      </view>
+      <view class="arrowsBox box box-tb box-pack-center">
+        <image src="../../image/wechatHL.png"></image>
+      </view>
+    </view>
+  </view>
+  <view class="moreButton" bindtap="loadMore">
+    点击加载更多↓
+
+</view>
 
 
 </view>

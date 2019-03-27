@@ -3,8 +3,13 @@ App({
   onLaunch: function () {
     //调用API从本地缓存中获取数据
     var logs = wx.getStorageSync('logs') || []
+    var option = wx.getLaunchOptionsSync()
+    console.log(option.scene);
     logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    wx.setStorageSync('logs', logs);
+    wx.setStorageSync('scene', option.scene);
+    var test1 = wx.getStorageSync('scene');
+    console.log(test1);
   },
   getUserInfo: function (cb) {
     var that = this
