@@ -18,21 +18,6 @@ Page({
       { name: '视点', id: '1003' }, { name: '交易', id: '1004' },
       { name: '质价标准', id: '1005' }, { name: '质价标准', id: '1006' },
       { name: '质价标准', id: '1007' }, { name: '质价标准', id: '1008' }
-    ],
-    headLineList: [
-      {
-        'title': '第一次看到非常完整的轮播图片和滚动效果看到非常完整的轮播图片和滚动效果看到非常完整的轮播图片和滚动效果',
-        'source': '中华粮网',
-        'date': '2019-3-27'
-      }, {
-        'title': '第一次看到非常完整的轮播图片和滚动效果',
-        'source': '中华粮网',
-        'date': '2019-3-27'
-      }, {
-        'title': '第一次看到非常完整的轮播图片和滚动效果',
-        'source': '中华粮网',
-        'date': '2019-3-27'
-      },
     ]
   },
 
@@ -47,21 +32,23 @@ Page({
     }
   },
   onLoad: function () {
+
     this.getData();
   },
   getData: function () {
     var that = this;
     wx.request({
-      url: 'http://www.phonegap100.com/appapi.php?a=getPortalCate',//请求地址
+      url: 'http://localhost:8080/testControl/test1',//请求地址
       header: {
         "Content-Type": "applciation/json"
       },
       method: 'GET', 
       success: function (res) {
-        console.log(res.data)
+        console.log(res.data);
         that.setData({
-          newsList: res.data.result
-        })
+          headLineList: res.data.newsData
+        });
+        
       },
       fail: function (err) {
         console.log("失败"+err.errMsg);
@@ -78,6 +65,25 @@ Page({
       this.onLoad();
     }
 
+  },
+  //新闻详情
+  jumpDetails: function (e) {
+    console.log("-----"+e.currentTarget.dataset.id);
+    wx.navigateTo({
+      url: '../index/news/news?newsId=' + e.currentTarget.dataset.id,
+      success: function (res) {
+        // success
+        console.log("接口调用成功的回调函数");
+      },
+      fail: function () {
+        // fail
+        console.log("接口调用失败的回调函数");
+      },
+      complete: function () {
+        // complete
+        console.log("调用接口完成");
+      }
+    })
   }
 
 

@@ -7,7 +7,8 @@
     "pages/circum/circum",
     "pages/self_message/self_message",
     "pages/negotiate/negotiate",
-    "pages/activity_list/play/play"
+    "pages/activity_list/play/play",
+    "pages/index/news/news"
   ],
   "window": {
     "backgroundTextStyle": "light",

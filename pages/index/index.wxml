@@ -23,14 +23,14 @@
 
 <!--列表-->
   <view class="headLine box box-tb">
-    <view class="headLineWra box box-lr"  wx:for="{{headLineList}}" bindtap="jumpDetails" data-Id="{{item.id}}" >
+    <view class="headLineWra box box-lr"  wx:for="{{headLineList}}" wx:key="*this" bindtap="jumpDetails" data-Id="{{item.id}}" >
       <view class="headLineContent box box-tb box-align-center box-pack-around">
         <view class="headLineTitle">
           {{item.title}}
         </view>
         <view class="headLineInfor  box box-lr box-pack-between">
           <view class="headLineSource">
-            日期: {{item.date}}
+            日期: {{item.newsdate}}
           </view>
           <view class="headLineSource">
             来源：{{item.source}}
