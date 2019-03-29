@@ -1,14 +1,11 @@
- <import src="../../common/template.wxml"/>
-
  <view class="index">
-    <view class='nav-scroll'>
-      <scroll-view class='scroll-view_H' scroll-x="true" style='width: 100%'>
-        <text wx:for="{{section}}" wx:key="id" id="{{item.id}}" catchtap="handleTap" 
-          class="nav-name {{item.id == currentId ? 'nav-hover' : ''}}">{{item.name}}
-        </text>
-      </scroll-view>
-    </view>
-<!-- <template is="loadings" data="{{loading,loadtxt}}" /> -->
+      <view class='nav-scroll'>
+        <scroll-view class='scroll-view_H' scroll-x="true" style='width: 100%'>
+          <text wx:for="{{section}}" wx:key="id" id="{{item.id}}" catchtap="handleTap" 
+            class="nav-name {{item.id == currentId ? 'nav-hover' : ''}}">{{item.name}}
+          </text>
+        </scroll-view>
+      </view>
 
 <!--滚动部分-->
 <view class="banner-scroll">
@@ -22,30 +19,19 @@
 </view>
 
 <!--列表-->
-  <view class="headLine box box-tb">
-    <view class="headLineWra box box-lr"  wx:for="{{headLineList}}" wx:key="*this" bindtap="jumpDetails" data-Id="{{item.id}}" >
+  <scroll-view scroll-y='true' style="height:{{height}}px" bindscrolltolower='lower' class="headLine box box-tb">
+    <view class="headLineWra box box-lr"  wx:for="{{newsList}}" wx:key="*this" bindtap="jumpDetails" data-Id="{{item.id}}" >
       <view class="headLineContent box box-tb box-align-center box-pack-around">
-        <view class="headLineTitle">
-          {{item.title}}
-        </view>
+        <view class="headLineTitle">{{item.title}}</view>
         <view class="headLineInfor  box box-lr box-pack-between">
-          <view class="headLineSource">
-            日期: {{item.newsdate}}
-          </view>
-          <view class="headLineSource">
-            来源：{{item.source}}
-          </view>
+          <view class="headLineSource">日期: {{item.newsdate}}</view>
+          <view class="headLineSource">来源：{{item.source}}</view>
         </view>
       </view>
       <view class="arrowsBox box box-tb box-pack-center">
         <image src="../../image/wechatHL.png"></image>
       </view>
     </view>
-  </view>
-  <view class="moreButton" bindtap="loadMore">
-    点击加载更多↓
-
-</view>
-
-
+  </scroll-view>
+  <!-- <view class="moreButton" bindtap="loadMore">点击加载更多↓</view> -->
 </view>
