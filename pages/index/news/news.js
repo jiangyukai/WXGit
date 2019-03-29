@@ -1,4 +1,5 @@
 // pages/index/news/news.js
+var WxParse = require('../../../wxParse/wxParse.js');
 Page({
 
   /**
@@ -13,7 +14,23 @@ Page({
    */
   onLoad: function (options) {
     var newsId = options.newsId;
+    var that = this;
     console.log("******************"+options.newsId);
+    wx.request({
+      url: 'http://localhost:8080/testControl/test2',
+      method: 'post',
+      data: JSON.stringify({
+        'newsId': newsId
+      }),
+      header: {
+        'content-type': 'application/json'
+      },
+      success: function (res) {
+        var article = res.data;
+        console.log(article+"*****************************");
+        WxParse.wxParse('article', 'html', article, that, 5);
+      }
+    })
    
   },
 
