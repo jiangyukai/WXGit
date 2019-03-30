@@ -1,7 +1,10 @@
-Page({
 
+var util = require('../../utils/util.js')
+Page({
   data: {
     height: '',
+    callbackcount: 15,      //返回数据的个数 
+    pageNums: 1,  // 设置加载的第几次，默认是第一次
     background: ['demo-text-1', 'demo-text-2', 'demo-text-3'],
     tradeList: [
       { name :'111',price:'222'},{name:'333',price:'444'},
@@ -11,14 +14,14 @@ Page({
       { name: '111', price: '222' }, { name: '333', price: '444' },
       ],
     newsList:[],
-    resArr : [],
     headLineList: [],
     section: [
       { name: '时政', id: '1001' }, { name: '解读', id: '1032' },
       { name: '视点', id: '1003' }, { name: '交易', id: '1004' },
-      { name: '质价标准', id: '1005' }, { name: '质价标准', id: '1006' },
-      { name: '质价标准', id: '1007' }, { name: '质价标准', id: '1008' }
-    ]
+      { name: '质价标准', id: '1005' }, { name: '质价标准', id: '1006' }
+    ],
+    searchLoading: false, //"上拉加载"的变量，默认false，隐藏
+    searchLoadingComplete: false  //“没有数据”的变量，默认false，隐藏
   },
 
   /**
@@ -27,40 +30,59 @@ Page({
   onShareAppMessage: function () {
     return {
       title: '测试分享',
-      desc: '最具人气的小程序开发联盟!',
+      desc: '小程序开发!',
       path: '/page/user?id=123'
     }
   },
   onLoad: function () {
+    let that = this;
+    let otherHeight1 =0;
+    let otherHeight2 = 0;
+    let query = wx.createSelectorQuery();
+    query.select('.nav-scroll').boundingClientRect(function(ret){
+      otherHeight1 = ret.height;
+      wx.setStorageSync('otherHeight1', otherHeight1);
+      // console.log(otherHeight1);
+    }).exec();
+    query.select('.banner-scroll').boundingClientRect(function (ret) {
+      otherHeight2 = ret.height;
+      wx.setStorageSync('otherHeight2', otherHeight2);
+      // console.log(otherHeight2);
+    }).exec();
+    otherHeight2 = wx.getStorageSync("otherHeight2");
+    otherHeight1 = wx.getStorageSync("otherHeight1");
+    console.log(otherHeight2 + otherHeight1)
     this.getData();
     wx.getSystemInfo({
       success: (res) => {
         this.setData({
-          height: res.windowHeight
+          height: res.windowHeight-that.otherHeight1-that.otherHeight2
         })
       }
     })
   },
   getData: function () {
     var that = this;
-    var golbNewsId = this.data.background;
-    console.log(golbNewsId+"*********************");
-    wx.request({
-      url: 'http://localhost:8080/testControl/test1',//请求地址
-      header: {
-        "Content-Type": "applciation/json"
-      },
-      data: { id: golbNewsId },
-      method: 'GET', 
-      success: function (res) {
+    var searchPageNum = that.pageNums;
+    var searchCallbackcount = that.callbackcount;
+    util.getNews(searchPageNum, searchCallbackcount,function(data){
+      if (data.newsData){
+        var serachList = [];
+        var isAllData = data.yes;
+        serachList = that.data.newsList.concat(data.newsData);
         that.setData({
-          newsList: res.data.newsData
-        }); 
-      },
-      fail: function (err) {
-        console.log("失败"+err.errMsg);
+          newsList: serachList,
+          searchLoading: !isAllData,   //把"上拉加载"的变量设为false，显示
+          searchLoadingComplete: isAllData
+        });
+      }else{
+        console.log("没有数据");
+        that.setData({
+          searchLoadingComplete: true, //把“没有数据”设为true，显示
+          searchLoading: false  //把"上拉加载"的变量设为false，隐藏
+        });
       }
-    })
+    });
   },
 
   handleTap: function (e) {
@@ -91,50 +113,15 @@ Page({
     })
   },
   lower() {
-    var result = this.data.newsList;
-    var lowerThis = this;
-    this.getData();
-    // wx.request({
-    //   url: 'http://localhost:8080/testControl/test1?id=golbNewsId',//请求地址
-    //   header: {
-    //     "Content-Type": "applciation/json"
-    //   },
-    //   method: 'GET',
-    //   success: function (res) {
-    //     lowerThis.setData({
-    //       resArr: res.data.newsData
-    //     });
-    //   },
-    //   fail: function (err) {
-    //     console.log("失败" + err.errMsg);
-    //   }
-    // })
-    console.log(resArr.length + "***************************************");
-    var cont = result.concat(resArr);
-    console.log(cont.length + "-////////////////////////////////////////////");
-    console.log(resArr.length + "***************************************");
-    console.log(cont.length);
-    if (cont.length >= 100) {
-      wx.showToast({ //如果全部加载完成了也弹一个框
-        title: '我也是有底线的',
-        icon: 'success',
-        duration: 300
+    var that = this;
+    if (that.data.searchLoading && !that.data.searchLoadingComplete) {
+      that.setData({
+        pageNums: that.data.pageNums + 1 //每次触发上拉事件，把searchPageNum+1
       });
-      return false;
-    } else {
-      wx.showLoading({ //期间为了显示效果可以添加一个过度的弹出框提示“加载中”  
-        title: '加载中',
-        icon: 'loading',
-      });
-      setTimeout(() => {
-        this.setData({
-          newsList: cont
-        });
-        wx.hideLoading();
-      }, 1500)
+      that.getData();
+    }else{
+      console.log("不满足加载条件");
     }
   }
-
-
     
 })

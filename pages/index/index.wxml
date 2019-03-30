@@ -19,6 +19,7 @@
 </view>
 
 <!--列表-->
+
   <scroll-view scroll-y='true' style="height:{{height}}px" bindscrolltolower='lower' class="headLine box box-tb">
     <view class="headLineWra box box-lr"  wx:for="{{newsList}}" wx:key="*this" bindtap="jumpDetails" data-Id="{{item.id}}" >
       <view class="headLineContent box box-tb box-align-center box-pack-around">
@@ -32,6 +33,8 @@
         <image src="../../image/wechatHL.png"></image>
       </view>
     </view>
+     <view class="loading" hidden="{{!searchLoading}}">正在载入更多...</view>
+     <view class="loading complete" hidden="{{!searchLoadingComplete}}">已加载全部</view>
   </scroll-view>
-  <!-- <view class="moreButton" bindtap="loadMore">点击加载更多↓</view> -->
-</view>
+
+  </view>

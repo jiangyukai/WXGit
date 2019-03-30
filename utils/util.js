@@ -17,5 +17,26 @@ function formatNumber(n) {
 }
 
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  getNews: getNews
 }
+
+/*加载新闻列表*/ 
+function getNews(pageindex, callbackcount, callback) {
+  wx.request({
+    url: 'http://localhost:8080/testControl/test1',
+    data: {
+      count: callbackcount,  //返回数据的个数
+      p: pageindex,//第几次加载
+    },
+    method: 'GET',
+    header: { 'content-Type': 'application/json' },
+    success: function (res) {
+      callback(res.data);
+    }
+  })
+}
+
+// module.exports = {
+//   getSearchMusic: getSearchMusic
+// }
