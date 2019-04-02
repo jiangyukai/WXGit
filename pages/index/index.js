@@ -1,5 +1,6 @@
 
 var util = require('../../utils/util.js')
+var test
 Page({
   data: {
     height: '',
@@ -51,20 +52,21 @@ Page({
     }).exec();
     otherHeight2 = wx.getStorageSync("otherHeight2");
     otherHeight1 = wx.getStorageSync("otherHeight1");
-    console.log(otherHeight2 + otherHeight1)
+    test = otherHeight2 + otherHeight1
+    console.log(test)
     this.getData();
     wx.getSystemInfo({
       success: (res) => {
         this.setData({
-          height: res.windowHeight-that.otherHeight1-that.otherHeight2
+          height: res.windowHeight-test
         })
       }
     })
   },
   getData: function () {
     var that = this;
-    var searchPageNum = that.pageNums;
-    var searchCallbackcount = that.callbackcount;
+    var searchPageNum = this.data.pageNums
+    var searchCallbackcount = this.data.callbackcount
     util.getNews(searchPageNum, searchCallbackcount,function(data){
       if (data.newsData){
         var serachList = [];
